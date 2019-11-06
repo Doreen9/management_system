@@ -13,11 +13,15 @@ public class Client {
         this.email = email;
     }
 
+    public Client() {
+
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getAddress() {
+    public String getAddress(int i) {
         return address;
     }
 
@@ -27,5 +31,8 @@ public class Client {
 
     public String getEmail() {
         return email;
+    }
+
+    public void delete(int index) {
     }
 }
