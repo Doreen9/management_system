@@ -1,43 +1,77 @@
 package io.turntabl;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Type;
+import java.util.*;
 
 public class ClientController {
-    private String filename = "data.ser";
-    private List<Client> clientList = new ArrayList<>();
-    private List<Client> getClientList = new ArrayList<>();
+    private File filename = new File("ClientStore.json");
 
-    public void addNewClient(Client client){
-
+    public Map<String,String> addNewClient(Client client){
+        Map<String,String> response = new HashMap<>();
         try{
-            ObjectOutputStream clientObject = new ObjectOutputStream(new FileOutputStream(filename));
-            clientList.add(client);
-            clientObject.writeObject(clientList);
-            clientObject.close();
+            if (!filename.exists()){
+                filename.createNewFile();
+            }
+            if (filename.exists()) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                // construct Type that tells Gson about the generic type
+                Type dtoListType = new TypeToken<List<Client>>(){}.getType();
+                FileReader fr = new FileReader(filename);
+                List<Client> dtos = gson.fromJson(fr, dtoListType);
+                fr.close();
+                // If it was an empty one create initial list
+                if(dtos == null) {
+                    dtos = new ArrayList<>();
+                }
+                // Add new item to the list
+                dtos.add(client);
+                // No append replace the whole file
+                FileWriter fw  = new FileWriter(filename);
+                gson.toJson(dtos, fw);
+                fw.close();
+                response.put("code","00");
+                response.put("msg","New Client Added Successfully!!!");
+            }
+
         }catch (FileNotFoundException e) {
             e.printStackTrace();
+            response.put("code","01");
+            response.put("msg","Oops!!,something went wrong, try again later.");
         } catch (IOException e) {
             e.printStackTrace();
+            response.put("code","02");
+            response.put("msg","Oops!!,something went wrong, try again later.");
         }
+        return response;
     }
     public List<Client> getAllClients(){
 
         try {
-            ObjectInputStream getClientObject = new ObjectInputStream(new FileInputStream(filename));
-            getClientList=(List<Client>)getClientObject.readObject();
-            getClientObject.close();
-            return getClientList;
+            if (!filename.exists()){
+                filename.createNewFile();
+            }
+            Gson gson = new Gson();
+            Type dtoListType = new TypeToken<List<Client>>(){}.getType();
+            FileReader fr = new FileReader(filename);
+            List<Client> clients = gson.fromJson(fr, dtoListType);
+            fr.close();
+            if(clients == null || clients.isEmpty()){
+                return new ArrayList<>();
+            }else {
+                return clients;
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return getClientList;
+            return new ArrayList<>();
+
         } catch (IOException e) {
             e.printStackTrace();
-            return getClientList;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return getClientList;
+            return new ArrayList<>();
         }
     }
 }

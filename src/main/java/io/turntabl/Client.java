@@ -43,4 +43,15 @@ public class Client implements Serializable {
     public String getEmail() {
         return email;
     }
+
+    @Override
+    public String toString() {
+        return "Client Details: {" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

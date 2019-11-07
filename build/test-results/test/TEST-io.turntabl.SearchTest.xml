@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.turntabl.SearchTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-11-07T10:05:41" hostname="ip-172-31-19-39" time="0.006">
+  <properties/>
+  <testcase name="clientSearch" classname="io.turntabl.SearchTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
