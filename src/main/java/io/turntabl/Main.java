@@ -3,7 +3,6 @@ package io.turntabl;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 
 public class Main {
@@ -41,7 +40,7 @@ public class Main {
         String email  = scanner.nextLine();
         System.out.println();
 
-        Client client = new Client(name,address,telephone,email);
+        Client client = new Client(0, name,address,telephone,email);
         System.out.println("Client Id:"+ client.getID());
         ClientController clientController = new ClientController();
         System.out. println("Client with the following details added successfully");

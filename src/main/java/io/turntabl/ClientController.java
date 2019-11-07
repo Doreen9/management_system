@@ -6,9 +6,16 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.sql.Blob;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClientController {
+    private static final Path FILEPATH = Paths.get("./resources/clientsInformation.txt");
     private File filename = new File("ClientStore.json");
     private List<Client> clientList = new ArrayList<>();
     private List<Client> getClientList = new ArrayList<>();
@@ -76,4 +83,92 @@ public class ClientController {
             return new ArrayList<>();
         }
     }
+    public boolean delete(int id) throws IOException {
+        if ( fileIsReady()) {
+            if (Files.readAllLines(FILEPATH).size() > 0) {
+                List<Client> removed = filterClientById(id);
+                writingFilteredClientToFile(removed);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private void writingFilteredClientToFile(List<Client> removed) throws IOException {
+        Files.delete(FILEPATH);
+        if (fileIsReady()) {
+            removed.forEach(clientData -> {
+                try {
+                    Files.write(FILEPATH, clientToCsvString(clientData).getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
+
+    private String clientToCsvString(Client client){
+        String[] split = client.toCSV().split(",");
+        if (split.length != 5){
+            return "";
+        }
+        return ( split[0] + "," + split[1] + "," + split[2] + "," + split[3] + "," + split[4] + "\n");
+    }
+
+    private Client stringToClient(String s) {
+        String[] split = s.split(",");
+        if ( split.length != 5){
+            return new Client(0,"","", "","");
+        }
+        int id = Integer.parseInt(split[0]);
+        return new Client(id, split[1], split[2], split[3], split[4]);
+    }
+
+    private boolean fileIsReady() throws IOException {
+        if (!Files.isDirectory(Paths.get("./resources"))){
+            Files.createDirectory(Paths.get("./resources"));
+        }
+        if ( Files.notExists(FILEPATH)) {
+            Files.createFile(FILEPATH);
+        }
+        return true;
+    }
+
+    private List<Client> filterClientById(int id) throws IOException {
+        return readFile()
+                .stream()
+                .filter(line -> !hasSameId(id, line))
+                .map(this::stringToClient)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> readFile() throws IOException {
+        if ( fileIsReady()) {
+            List<String> allLines = Files.readAllLines(FILEPATH);
+            return  allLines.stream()
+                    .filter(line -> !line.isEmpty() && !line.equals("0,,,,"))
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    private boolean hasSameId(int id, String line) {
+        int x = Integer.parseInt(line.split(",")[0]);
+        return (x == id);
+    }
+
+    private int generateId() throws IOException {
+        List<String> allData = readFile();
+        int collectionSize = allData.size();
+        if ( collectionSize == 0){
+            return 1;
+        }
+
+        String ints = allData.get(collectionSize - 1).split(",")[0];
+        return  ( Integer.parseInt(ints) +1);
+    }
+
 }

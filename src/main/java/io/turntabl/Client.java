@@ -1,6 +1,7 @@
 package io.turntabl;
 
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class Client{
     public String name;
@@ -20,7 +21,7 @@ public class Client{
                 '}';
     }
 
-    public Client(String name, String address, String phoneNumber, String email) {
+    public Client(int id, String name, String address, String phoneNumber, String email) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -52,5 +53,9 @@ public class Client{
 
     public String getEmail() {
         return email;
+    }
+
+    public String toCSV(){
+        return ( this.id + "," + this.name + "," +  this.address + ","  + this.phoneNumber + "," + this.email + "\n" );
     }
 }
