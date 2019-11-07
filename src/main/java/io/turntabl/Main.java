@@ -100,4 +100,19 @@ public class Main {
         }
 
         }
-    }
+
+    //Check the user input
+            //Delete a Client
+            //Code goes here
+            /*System.out.println("Client has been Deleted Successfully");
+            break;
+        case "4":
+            //Exit from the application
+            System.out.println("Exiting...");
+            System.exit(0);
+        default:
+            //Inform user in case of invalid choice.
+            System.out.println("Invalid choice. Read the options carefully...");
+    }*/
+}
+
