@@ -58,8 +58,6 @@ public class Main {
             System.out.println("Oops!!!, something went wrong, try again later");
         }
 
-
-
     }
 
     public static void input2(){

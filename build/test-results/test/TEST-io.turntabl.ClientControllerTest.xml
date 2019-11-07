@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.turntabl.ClientControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-11-07T16:25:40" hostname="sammy" time="0.155">
+  <properties/>
+  <testcase name="testUpdateClient" classname="io.turntabl.ClientControllerTest" time="0.155"/>
+  <system-out><![CDATA[New List: [Client{name='Yaa', id=659123, address='Legon', phoneNumber='055555555', email='yaaMaame@gmail.com'}]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClientController {
     private File filename = new File("ClientStore.json");
@@ -27,7 +28,7 @@ public class ClientController {
                 List<Client> dtos = gson.fromJson(fr, dtoListType);
                 fr.close();
                 // If it was an empty one create initial list
-                if(dtos == null) {
+                if(dtos == null || dtos.isEmpty()) {
                     dtos = new ArrayList<>();
                 }
                 // Add new item to the list
@@ -75,5 +76,109 @@ public class ClientController {
             e.printStackTrace();
             return new ArrayList<>();
         }
+    }
+
+    public Map<String,String> updateClient(Map<String,String> requestData){
+
+        Map<String,String> response = new HashMap<>();
+        Optional<Client> client;
+        String name;
+        String address;
+        String phoneNumber;
+        String email;
+        if (requestData.get("id").isEmpty()){
+            response.put("code","01");
+            response.put("msg","Client ID is empty,kindly enter Client ID");
+        }else {
+            Integer id = Integer.parseInt(requestData.get("id"));
+            List<Client> clientList = this.getAllClients();
+            Optional<Client> clientObj = clientList.stream()
+                    .filter(client1 -> client1.getID() == id)
+                    .findFirst();
+            if (clientObj.isPresent()){
+                client = Optional.of(clientObj.get());
+            }else {
+                client = Optional.empty();
+            }
+            if (client.isPresent()){
+                if (!requestData.get("name").isEmpty()){
+                    name = requestData.get("name");
+                }else {
+                    name = client.get().getName();
+                }
+                if (!requestData.get("address").isEmpty()){
+                    address = requestData.get("address");
+                }else {
+                    address = client.get().getAddress();
+                }
+                if (!requestData.get("phoneNumber").isEmpty()){
+                    phoneNumber = requestData.get("phoneNumber");
+                }else {
+                    phoneNumber = client.get().getPhoneNumber();
+                }
+                if (!requestData.get("email").isEmpty()){
+                    email = requestData.get("email");
+                }else {
+                    email = client.get().getEmail();
+                }
+                Client newClient = new Client(name,address,phoneNumber,email);
+                this.addNewClient(newClient);
+                this.removeClient(requestData.get("id"));
+                response.put("code","00");
+                response.put("msg","Clients details Updated Successfully");
+
+            }else {
+                String msg = "Client doesn't exist";
+                response.put("code","01");
+                response.put("msg",msg);
+            }
+        }
+
+        return response;
+    }
+    public Map<String,String> removeClient(String id){
+        List<Client> clientList = this.getAllClients();
+        Map<String,String> response = new HashMap<>();
+        Integer clientId = Integer.parseInt(id);
+        List<Client> newclients = clientList.stream()
+                .filter(client1 -> client1.getID() != clientId)
+                .collect(Collectors.toList());
+        System.out.println("New List: " + newclients);
+        try {
+            if (filename.exists()){
+                filename.delete();
+                filename.createNewFile();
+            }
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Type dtoListType = new TypeToken<List<Client>>(){}.getType();
+            FileReader fr = new FileReader(filename);
+            List<Client> dtos = gson.fromJson(fr, dtoListType);
+            fr.close();
+            // If it was an empty one create initial list
+            if(dtos == null || dtos.isEmpty()) {
+                dtos = new ArrayList<>();
+            }
+            // Add new item to the list
+            for(Client client: newclients){
+                dtos.add(client);
+            }
+
+            // No append replace the whole file
+            FileWriter fw  = new FileWriter(filename);
+            gson.toJson(dtos, fw);
+            fw.close();
+            response.put("code","00");
+            response.put("msg","Client deleted Successfully");
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+            response.put("code","01");
+            response.put("msg","Oops!!,something went wrong, try again later.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.put("code","02");
+            response.put("msg","Oops!!,something went wrong, try again later.");
+        }
+        return response;
     }
 }
