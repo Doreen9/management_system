@@ -22,6 +22,17 @@ application {
     mainClassName = 'io.turntabl.Main'
 }
 
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'io.turntabl.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 //this will build a start script in
 tasks.startScripts {
     doLast {
@@ -37,7 +48,10 @@ application {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'io.turntabl.Main'
+        attributes(
+                'Implementation-Title': 'TLC Management System',
+                'Implementation-Version': version,
+                'Main-Class': 'io.turntabl.Main'
+        )
     }
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
