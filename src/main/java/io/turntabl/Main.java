@@ -215,7 +215,7 @@ public class Main {
                                         System.out.println(errorCodes.get("msg"));
                                     }
                                     break;
-                                } else if (actualDeleteOption == 0) {
+                                } else if (actualDeleteOption == 2) {
                                     mainMenu();
                                     System.out.println();
                                     System.out.println("\033[0;92mAborted!!\033[0m");
