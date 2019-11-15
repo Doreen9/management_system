@@ -44,7 +44,7 @@ public class Dbtest {
     @Test
     public void viewClients() throws SQLException, ClassNotFoundException {
         Class.forName("org.h2.Driver");
-        String url = "jdbc:h2:~/test";
+        String url = "jdbc:h2:///home/travis/build/Doreen9/management_system/test";
         List<String> client_details = new ArrayList<>();
         Connection conn = DriverManager.getConnection(url, "", "");
         Statement statement = conn.createStatement();
