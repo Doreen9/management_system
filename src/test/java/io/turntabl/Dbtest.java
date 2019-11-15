@@ -11,7 +11,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class Dbtest {
-    private static final String dbUrl = "jdbc:h2:test";
+    private static final String url = "jdbc:h2:test";
     public static Optional<Connection> getConnection() {
         try{
             Class.forName("org.h2.Driver");
