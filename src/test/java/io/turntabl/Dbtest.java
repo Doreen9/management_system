@@ -11,11 +11,10 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class Dbtest {
-
+    String url = "jdbc:h2:test";
     public static Optional<Connection> getConnection() {
         try{
             Class.forName("org.h2.Driver");
-            String url = "jdbc:h2:~/test";
             try {
                 return Optional.ofNullable(DriverManager.getConnection(url, "", ""));
             }catch (SQLException e){
@@ -44,7 +43,6 @@ public class Dbtest {
     @Test
     public void viewClients() throws SQLException, ClassNotFoundException {
         Class.forName("org.h2.Driver");
-        String url = "jdbc:h2:///home/travis/build/Doreen9/management_system/test";
         List<String> client_details = new ArrayList<>();
         Connection conn = DriverManager.getConnection(url, "", "");
         Statement statement = conn.createStatement();
@@ -61,7 +59,6 @@ public class Dbtest {
     @Test
     public void countRows() throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
-        String url = "jdbc:h2:~/test";
         Connection conn = DriverManager.getConnection(url, "", "");
         Statement statement = conn.createStatement();
         ResultSet rs = statement.executeQuery("select * from clients");
