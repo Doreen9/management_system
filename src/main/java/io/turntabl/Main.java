@@ -1,5 +1,8 @@
 package io.turntabl;
 
+import io.turntabl.v1.Client;
+import io.turntabl.v1.ClientController;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,7 +68,6 @@ public class Main {
         }else{
             System.out.println("\033[0;91m Oops!!!, something went wrong, try again later\033[0m");
         }
-
 
     }
 
@@ -215,7 +217,7 @@ public class Main {
                                         System.out.println(errorCodes.get("msg"));
                                     }
                                     break;
-                                } else if (actualDeleteOption == 2) {
+                                } else if (actualDeleteOption == 0) {
                                     mainMenu();
                                     System.out.println();
                                     System.out.println("\033[0;92mAborted!!\033[0m");

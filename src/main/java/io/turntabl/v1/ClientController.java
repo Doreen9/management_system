@@ -1,8 +1,9 @@
-package io.turntabl;
+package io.turntabl.v1;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import io.turntabl.Utilities.ConsoleTable;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -41,8 +42,8 @@ public class ClientController {
 
         }catch (FileNotFoundException e) {
             e.printStackTrace();
-            response.put("code","01");
-            response.put("msg","Oops!!,something went wrong, try again later.");
+
+            response.put("01","Oops!!,something went wrong, try again later.");
         } catch (IOException e) {
             e.printStackTrace();
             response.put("code","02");

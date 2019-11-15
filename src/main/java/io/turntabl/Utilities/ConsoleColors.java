@@ -1,4 +1,4 @@
-package io.turntabl;
+package io.turntabl.Utilities;
 
 public class ConsoleColors {
     // Reset
