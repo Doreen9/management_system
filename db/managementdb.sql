@@ -1,15 +1,11 @@
-DROP TABLE IF EXISTS customers
 
-
-CREATE TABLE customers(
+CREATE TABLE customers (
 
 	client_id serial primary key,
 	client_name text not null,
 	client_address text not null,
 	client_telephone text not null,
 	client_email text not null
-
-
 );
 
 
@@ -37,5 +33,3 @@ INSERT INTO customers(client_name, client_address, client_telephone, client_emai
 INSERT INTO customers(client_name, client_address, client_telephone, client_email) VALUES ('Barbara Ameyaw', 'Tema East house number 4', '0277809981', 'barbaraameyaw@gmail.com');
 
 INSERT INTO customers(client_name, client_address, client_telephone, client_email) VALUES ('Hannah Sam', 'Darkuman Junction', '0243858307', 'hannahsam@gmail.com');
-
-
