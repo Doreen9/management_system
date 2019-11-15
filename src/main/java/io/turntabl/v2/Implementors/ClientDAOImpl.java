@@ -5,6 +5,7 @@ import io.turntabl.v2.Transfers.ClientTO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -63,5 +64,15 @@ public class ClientDAOImpl implements ClientDAO {
             System.out.println("Driver Class Error: " + e.getMessage());
             return Optional.empty();
         }
+    }
+    private ClientTO rowMappper(ResultSet rs, int rowNum) throws SQLException {
+        ClientTO client = new ClientTO(
+                rs.getInt("client_id"),
+                rs.getString("client_name"),
+                rs.getString("client_address"),
+                rs.getString("client_telephone"),
+                rs.getString("client_email")
+        );
+        return client;
     }
 }
