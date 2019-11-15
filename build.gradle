@@ -22,10 +22,6 @@ application {
     mainClassName = 'io.turntabl.Main'
 }
 
-run {
-    standardInput = System.in
-}
-
 task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'Gradle Jar File Example',
