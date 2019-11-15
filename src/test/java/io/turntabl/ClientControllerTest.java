@@ -24,8 +24,7 @@ public class ClientControllerTest {
         //clientDAO.deleteClient(13);
         //clientDAO.searchClientByName("Hannah Sam");
         clientDAO.updateClient(actual);
-        System.out.println(clientDAO.getAllClients());
-
+     
 
     }
 
