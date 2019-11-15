@@ -41,9 +41,11 @@ public class Dbtest {
     }
 
     @Test
-    public void viewClients() throws SQLException, ClassNotFoundException {
+    public void viewClients() throws ClassNotFoundException {
         Class.forName("org.h2.Driver");
         List<String> client_details = new ArrayList<>();
+        
+        try{
         Connection conn = DriverManager.getConnection(url, "", "");
         Statement statement = conn.createStatement();
         ResultSet rs = statement.executeQuery("select * from clients");
@@ -53,12 +55,17 @@ public class Dbtest {
         }
         List<String> details = Arrays.asList("David Ameyaw", "Lapaz", "Doreen Amankwa", "Accra", "Kwakye Osei", "Capecoast", "Alex owusu", "Achimota");
         assertEquals(details, client_details);
+        }
+        catch(SQLException e){
+            System.err.println("Connection error: " + e);
+        }
 
     }
 
     @Test
-    public void countRows() throws ClassNotFoundException, SQLException {
+    public void countRows() throws ClassNotFoundException {
         Class.forName("org.h2.Driver");
+        try {
         Connection conn = DriverManager.getConnection(url, "", "");
         Statement statement = conn.createStatement();
         ResultSet rs = statement.executeQuery("select * from clients");
@@ -68,6 +75,11 @@ public class Dbtest {
         }
         int expected = 4;
         assertEquals(expected, count);
+    }
+        
+        catch(SQLException e){
+            System.err.println("Connection error: " + e);
+        }
 
     }
 
