@@ -15,7 +15,7 @@ public class Dbtest {
     public static Optional<Connection> getConnection() {
         try{
             Class.forName("org.h2.Driver");
-            String url = "jdbc:h2:~/Desktop/management_system/test";
+            String url = "jdbc:h2:/test";
             try {
                 return Optional.ofNullable(DriverManager.getConnection(url, "", ""));
             }catch (SQLException e){
